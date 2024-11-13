@@ -25,7 +25,7 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2761224123173507928, guid: 46690a3e4b364a145b14b101211d4d5a, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 78ff1d04714ba5f41a365f3fa676072b, type: 2}
     - target: {fileID: 2772523429307621943, guid: 46690a3e4b364a145b14b101211d4d5a, type: 3}
@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 6840385162953353056, guid: 46690a3e4b364a145b14b101211d4d5a, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7870029411150934430, guid: 46690a3e4b364a145b14b101211d4d5a, type: 3}
       propertyPath: m_Radius
       value: 0.2
@@ -110,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8937039293702704991, guid: 46690a3e4b364a145b14b101211d4d5a, type: 3}
       propertyPath: m_Name
-      value: OldConstraction Block.1 Variant
+      value: WoodenModule
       objectReference: {fileID: 0}
     - target: {fileID: 8937039293702704991, guid: 46690a3e4b364a145b14b101211d4d5a, type: 3}
       propertyPath: m_IsActive

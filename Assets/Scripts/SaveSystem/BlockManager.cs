@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BlockManager : MonoBehaviour
 {
-    public List<BlockType> blockTypes; // Список типов блоков
+    public List<BlockType> blockTypes; 
 
     private Dictionary<string, BlockType> blockTypeDictionary;
 

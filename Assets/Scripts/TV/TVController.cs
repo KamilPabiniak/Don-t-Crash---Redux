@@ -92,12 +92,6 @@ public class TVController : MonoBehaviour
             case 3:
                 HandleSpawnMenuSelection();
                 break;
-            case 4:
-                HandleSaveTrainsMenuSelection();
-                break;
-            case 5:
-                HandleLoadTrainsMenuSelection();
-                break;
         }
     }
 
@@ -106,18 +100,18 @@ public class TVController : MonoBehaviour
         switch (selectedIndex)
         {
             case 0:
-                SceneManager.LoadScene("GameScene"); // Загрузка первой игровой сцены
+                SceneManager.LoadScene("GameScene"); 
                 break;
             case 1:
-                currentPage = 1; // Переход к выбору уровней
+                currentPage = 1; 
                 SetCurrentMenu(levelMenuItems, levelMenuPage);
                 break;
             case 2:
-                currentPage = 2; // Переход к выбору видеокамер
+                currentPage = 2; 
                 SetCurrentMenu(cameraMenuItems, cameraMenuPage);
                 break;
             case 3:
-                currentPage = 3; // Переход к настройкам
+                currentPage = 3; 
                 SetCurrentMenu(spawnMenuItems, spawnMenuPage);
                 break;
             //case 4: 
@@ -125,7 +119,7 @@ public class TVController : MonoBehaviour
             //    SetCurrentMenu()
             //    break;
             case 4:
-                Application.Quit(); // Выход из игры
+                Application.Quit(); 
                 break;
         }
     }
@@ -173,44 +167,7 @@ public class TVController : MonoBehaviour
         }
     }
 
-    private void HandleLoadTrainsMenuSelection()
-    {
-        switch (selectedIndex)
-        {
-            case 0:
-                gameManager.LoadVehicle("1");
-                break;
-            case 1:
-                gameManager.LoadVehicle("2");
-                break;
-            case 2:
-                gameManager.LoadVehicle("3");
-                break;
-            case 3:
-                currentPage = 0;
-                SetCurrentMenu(mainMenuItems, mainMenuPage);
-                break;
-        }
-    }
-    private void HandleSaveTrainsMenuSelection()
-    {
-        switch (selectedIndex)
-        {
-            case 0:
-                gameManager.SaveVehicle("1");
-                break;
-            case 1:
-                gameManager.SaveVehicle("2");
-                break;
-            case 2:
-                gameManager.SaveVehicle("3");
-                break;
-            case 3:
-                currentPage = 0;
-                SetCurrentMenu(mainMenuItems, mainMenuPage);
-                break;
-        }
-    }
+
     private void HandleSpawnMenuSelection()
     {
         // Логика выбора спавна блоков
