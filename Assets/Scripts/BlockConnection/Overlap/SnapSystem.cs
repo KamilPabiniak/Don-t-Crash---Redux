@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SnapSystem : MonoBehaviour
 {
-    [SerializeField] private bool isRoot = false;  
+    [SerializeField] public bool isRoot = false;  
     [SerializeField] private float snapRange = 0.3f;  
     [SerializeField] private LayerMask snapLayerMask;  
     [Header("Attachment Points")]
