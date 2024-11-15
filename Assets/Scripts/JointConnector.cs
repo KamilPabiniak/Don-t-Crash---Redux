@@ -12,7 +12,6 @@ public class JointConnector : MonoBehaviour
 
     private void OnEnable()
     {
-        // Set up the InputAction for the "1" key
         connectAction = new InputAction(type: InputActionType.Button, binding: "<Keyboard>/1");
         connectAction.performed += OnConnectActionPerformed;
         connectAction.Enable();
@@ -26,7 +25,7 @@ public class JointConnector : MonoBehaviour
 
     private void OnConnectActionPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("Connect action triggered"); // This will show in the Console if the action works
+        Debug.Log("Connect action triggered"); 
         ConnectAllSnappedObjects();
     }
 
