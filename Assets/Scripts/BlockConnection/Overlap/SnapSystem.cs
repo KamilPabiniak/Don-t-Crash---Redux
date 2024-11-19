@@ -87,7 +87,6 @@ public class SnapSystem : MonoBehaviour
         }
         
         float targetYAngle = Mathf.Round(transform.eulerAngles.y / 90f) * 90f;
-        
         transform.rotation = Quaternion.Euler(0f, targetYAngle, 0f);
 
    

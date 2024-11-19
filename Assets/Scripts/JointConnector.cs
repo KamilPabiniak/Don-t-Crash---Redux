@@ -33,32 +33,62 @@ public class JointConnector : MonoBehaviour
     {
         if (isConnected) return;
 
-        SnapSystem[] snapSystems = FindObjectsOfType<SnapSystem>();
-
+        List<SnapSystem> snapSystems = new List<SnapSystem>();
+        FindAllSnapSystems(transform, snapSystems); 
+        
         foreach (SnapSystem snapSystem in snapSystems)
         {
-            if (snapSystem.transform.IsChildOf(rootRigidbody.transform) || snapSystem.isRoot)
-            {
-                Rigidbody rb = snapSystem.GetComponent<Rigidbody>();
-                if (rb != null && rb != rootRigidbody)
-                {
-                    FixedJoint joint = rootRigidbody.gameObject.AddComponent<FixedJoint>();
-                    joint.connectedBody = rb;
-                    connectedBodies.Add(rb);
+            if (snapSystem.isRoot || snapSystem.GetComponent<Rigidbody>() == null) continue;
 
+            Rigidbody childRb = snapSystem.GetComponent<Rigidbody>();
+            Transform parentTransform = snapSystem.transform.parent;
+
+            if (parentTransform != null)
+            {
+                Rigidbody parentRb = parentTransform.GetComponent<Rigidbody>();
+
+                if (parentRb != null && parentRb != childRb)
+                {
+                    FixedJoint joint = parentRb.gameObject.AddComponent<FixedJoint>();
+                    joint.connectedBody = childRb;
+                    connectedBodies.Add(childRb);
                     snapSystem.enabled = false;
                 }
             }
         }
-
+        
         rootRigidbody.useGravity = true;
         rootRigidbody.isKinematic = false;
+
         foreach (Rigidbody rb in connectedBodies)
         {
             rb.useGravity = true;
             rb.isKinematic = false;
         }
+        
+        foreach (SnapSystem snapSystem in snapSystems)
+        {
+            snapSystem.Detach();
+            Debug.Log($"Detaching {snapSystem.name}");
+        }
 
         isConnected = true;
     }
+
+
+    private void FindAllSnapSystems(Transform current, List<SnapSystem> snapSystems)
+    {
+        SnapSystem snapSystem = current.GetComponent<SnapSystem>();
+        if (snapSystem != null)
+        {
+            snapSystems.Add(snapSystem);
+            Debug.Log(snapSystem);
+        }
+        
+        foreach (Transform child in current)
+        {
+            FindAllSnapSystems(child, snapSystems);
+        }
+    }
+
 }

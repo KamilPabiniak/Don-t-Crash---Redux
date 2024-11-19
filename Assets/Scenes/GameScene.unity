@@ -119,6 +119,16 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!54 &7341918 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 2776590198045874260, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
+  m_PrefabInstance: {fileID: 493690264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7341922 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
+  m_PrefabInstance: {fileID: 493690264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &20006861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7705662661862635572, guid: d019ae3a670c8ed43a4d52816bc491e4, type: 3}
@@ -889,7 +899,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
@@ -1140,7 +1150,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 536923498}
     m_Modifications:
     - target: {fileID: 2082738908055948749, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: jointHealth
@@ -1148,15 +1158,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.267
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.095
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.743
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1164,15 +1174,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5432438875112041799, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1190,7 +1200,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineModule-Root
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2082738908055948749, guid: 806011a28772a3d44b26c8c876d12df0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1352,6 +1363,52 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 647221551}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &536923496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 536923498}
+  - component: {fileID: 536923497}
+  m_Layer: 0
+  m_Name: Vehicle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &536923497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536923496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50518c9849bf111459347293b175b34c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootRigidbody: {fileID: 7341918}
+--- !u!4 &536923498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536923496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.227, y: 1.196, z: -6.817}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7341922}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &544708682
@@ -1836,7 +1893,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
@@ -2919,7 +2976,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ddd788020de7c1c4db48ef4f6497ee94, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.753
+      value: -6.756
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ddd788020de7c1c4db48ef4f6497ee94, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7039,7 +7096,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
@@ -7229,7 +7286,7 @@ SceneRoots:
   - {fileID: 849626199}
   - {fileID: 1201353329}
   - {fileID: 1299593889}
-  - {fileID: 493690264}
+  - {fileID: 536923498}
   - {fileID: 5714092707628590800}
   - {fileID: 649974334}
   - {fileID: 384315837}
