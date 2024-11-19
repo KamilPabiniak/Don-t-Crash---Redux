@@ -70,6 +70,7 @@ public class JointConnector : MonoBehaviour
         {
             snapSystem.Detach();
             Debug.Log($"Detaching {snapSystem.name}");
+            snapSystem.transform.SetParent(gameObject.transform);
         }
 
         isConnected = true;
