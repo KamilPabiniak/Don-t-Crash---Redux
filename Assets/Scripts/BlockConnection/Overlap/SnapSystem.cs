@@ -97,19 +97,23 @@ public class SnapSystem : MonoBehaviour
     
     public void Detach()
     {
-        if (transform.parent != null)
+        Transform currentParent = transform.parent;
+
+        while (currentParent != null)
         {
-            transform.SetParent(null);
-            if (rb != null)
-            {
-                rb.isKinematic = false;  
-            }
-            
-            AttachmentPoint point = transform.parent.GetComponent<AttachmentPoint>();
+            AttachmentPoint point = currentParent.GetComponent<AttachmentPoint>();
             if (point != null)
             {
                 point.SetConnected(false);
             }
+            transform.SetParent(null);
+            currentParent = currentParent.parent; 
+        }
+
+        if (rb != null)
+        {
+            rb.isKinematic = false; 
         }
     }
+
 }

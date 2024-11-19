@@ -887,6 +887,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_LastSelectExited.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1808862419}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Detach
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SnapSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7398592630682112632, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_Name
       value: WoodenModule.2
@@ -1806,6 +1834,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_LastSelectExited.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1808862419}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Detach
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SnapSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7398592630682112632, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_Name
       value: WoodenModule.1
@@ -2904,6 +2960,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ddd788020de7c1c4db48ef4f6497ee94, type: 3}
       propertyPath: m_Name
       value: TV
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263759513294282681, guid: ddd788020de7c1c4db48ef4f6497ee94, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5908,6 +5968,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800949482}
   m_CullTransparentMesh: 1
+--- !u!114 &1808862419 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4769469985596672893, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+  m_PrefabInstance: {fileID: 5714092707628590800}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a1a073a9386644d8e9b772f4b899bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1847709837
 GameObject:
   m_ObjectHideFlags: 0
@@ -6966,6 +7037,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_LastSelectExited.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1808862419}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Detach
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SnapSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7282090068369636074, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
+      propertyPath: m_SelectExited.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7398592630682112632, guid: 9d9a0a85f4b8bfc44986f63b05014a8b, type: 3}
       propertyPath: m_Name
       value: WoodenModule
