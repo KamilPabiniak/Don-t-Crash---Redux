@@ -8,7 +8,7 @@ public class JointConnector : MonoBehaviour
 
     private InputAction connectAction;
     private bool isConnected = false;
-    private List<Rigidbody> connectedBodies = new List<Rigidbody>();
+    private List<SnapSystem> snapSystems = new List<SnapSystem>();
 
     private void OnEnable()
     {
@@ -33,27 +33,29 @@ public class JointConnector : MonoBehaviour
     {
         if (isConnected) return;
 
-        List<SnapSystem> snapSystems = new List<SnapSystem>();
+        List<Rigidbody> connectedBodies = new List<Rigidbody>();
         FindAllSnapSystems(transform, snapSystems); 
-        
+
         foreach (SnapSystem snapSystem in snapSystems)
         {
             if (snapSystem.isRoot || snapSystem.GetComponent<Rigidbody>() == null) continue;
 
             Rigidbody childRb = snapSystem.GetComponent<Rigidbody>();
-            Transform parentTransform = snapSystem.transform.parent;
+            Rigidbody parentRb = GetParentRigidbody(snapSystem.transform);
 
-            if (parentTransform != null)
+            if (parentRb != null && parentRb != childRb)
             {
-                Rigidbody parentRb = parentTransform.GetComponent<Rigidbody>();
+                FixedJoint joint = parentRb.gameObject.AddComponent<FixedJoint>();
+                joint.connectedBody = childRb;
+                connectedBodies.Add(childRb);
 
-                if (parentRb != null && parentRb != childRb)
-                {
-                    FixedJoint joint = parentRb.gameObject.AddComponent<FixedJoint>();
-                    joint.connectedBody = childRb;
-                    connectedBodies.Add(childRb);
-                    snapSystem.enabled = false;
-                }
+                Debug.Log($"Joint created between {parentRb.name} and {childRb.name}");
+
+                snapSystem.enabled = false;
+            }
+            else
+            {
+                Debug.LogWarning($"Parent Rigidbody not found for {snapSystem.name}");
             }
         }
         
@@ -69,11 +71,26 @@ public class JointConnector : MonoBehaviour
         foreach (SnapSystem snapSystem in snapSystems)
         {
             snapSystem.Detach();
-            Debug.Log($"Detaching {snapSystem.name}");
             snapSystem.transform.SetParent(gameObject.transform);
         }
 
         isConnected = true;
+    }
+
+    private Rigidbody GetParentRigidbody(Transform child)
+    {
+        Transform current = child.parent;
+
+        while (current != null)
+        {
+            Rigidbody rb = current.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                return rb; 
+            }
+            current = current.parent; 
+        }
+        return null; 
     }
 
 
@@ -83,7 +100,6 @@ public class JointConnector : MonoBehaviour
         if (snapSystem != null)
         {
             snapSystems.Add(snapSystem);
-            Debug.Log(snapSystem);
         }
         
         foreach (Transform child in current)
