@@ -2431,7 +2431,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoosterModule
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7193607978110234639, guid: 6b725cbb642116342a8a73ccdd3a3b94, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3568,7 +3569,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: EngineModule
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7193607978110234639, guid: b28e01f18581f584b9ca1556c270bfb4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3983,7 +3985,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: WheelModule
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7193607978110234639, guid: ae6421eaa8a4cd04fa5bdbcd1159aaf8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
