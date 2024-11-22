@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class JointConnector : MonoBehaviour
 {
     [SerializeField] private Rigidbody rootRigidbody;
+    [SerializeField] private Vehicle vehicle;
 
     private InputAction connectAction;
     private bool isConnected = false;
@@ -25,7 +26,6 @@ public class JointConnector : MonoBehaviour
 
     private void OnConnectActionPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("Connect action triggered"); 
         ConnectAllSnappedObjects();
     }
 
@@ -56,9 +56,9 @@ public class JointConnector : MonoBehaviour
             else
             {
                 Debug.LogWarning($"Parent Rigidbody not found for {snapSystem.name}");
-            }
+            } 
         }
-        
+
         rootRigidbody.useGravity = true;
         rootRigidbody.isKinematic = false;
 
@@ -75,6 +75,7 @@ public class JointConnector : MonoBehaviour
         }
 
         isConnected = true;
+        vehicle.FindComponents();
     }
 
     private Rigidbody GetParentRigidbody(Transform child)
