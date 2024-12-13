@@ -49,8 +49,6 @@ public class JointConnector : MonoBehaviour
                 joint.connectedBody = childRb;
                 connectedBodies.Add(childRb);
 
-                Debug.Log($"Joint created between {parentRb.name} and {childRb.name}");
-
                 snapSystem.enabled = false;
             }
             else

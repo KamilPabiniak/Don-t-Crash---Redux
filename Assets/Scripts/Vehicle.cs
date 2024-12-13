@@ -84,7 +84,7 @@ public class Vehicle : MonoBehaviour
     {
         foreach (Wheel wheel in wheels)
         {
-            wheel.Move();
+            wheel.ApplyForce();
         }
     }
 }
