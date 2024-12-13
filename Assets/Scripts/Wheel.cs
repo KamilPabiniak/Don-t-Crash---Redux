@@ -26,12 +26,12 @@ public class Wheel : MonoBehaviour
     {
         if (!attachment.isConnected)
         {
-            col.enabled = true;
+            //col.enabled = true;
             return;
         }
 
-        col.enabled = false;
-        transform.localRotation = Quaternion.Euler(initialLocalRotation.x, initialLocalRotation.y + turnAngle, initialLocalRotation.z);
+        Destroy(col);
+        //transform.localRotation = Quaternion.Euler(initialLocalRotation.x, initialLocalRotation.y + turnAngle, initialLocalRotation.z);
     }
 
     public void ApplyForce()
