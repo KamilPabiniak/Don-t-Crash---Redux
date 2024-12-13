@@ -38,10 +38,14 @@ public class Wheel : MonoBehaviour
     {
         // if (attachment.isConnected)
         {
-            Vector3 direction = Quaternion.Euler(0, turnAngle, 0) * transform.forward;
-            //Vector3 force = transform.forward * moveSpeed;
+            //Vector3 direction = Quaternion.Euler(0, turnAngle, 0) * transform.forward;
+
+            Vector3 forwardForce = transform.forward ;
+
+           
+            rb.AddForce(forwardForce * moveSpeed);
             //rb.AddForceAtPosition(force, transform.position);
-            rb.AddForceAtPosition(direction * moveSpeed, transform.position);
+         
         }
     }
 }
