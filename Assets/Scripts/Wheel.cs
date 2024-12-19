@@ -7,14 +7,16 @@ public class Wheel : MonoBehaviour
     public float turnSpeed = 5f;
 
     [Header("Turning Settings")]
-    [Range(-45f, 45f)] public float turnAngle = 0f;
+    [Range(-15f, 15f)] public float turnAngle = 0f;
 
     [Header("References")]
     [SerializeField] private AttachmentPoint attachment;
     [SerializeField] private Collider col;
     private Rigidbody rb;
+    private Rigidbody _vehicleRb;
 
     private Vector3 initialLocalRotation; 
+    private float turning;
 
     private void Start()
     {
@@ -31,21 +33,34 @@ public class Wheel : MonoBehaviour
         }
 
         Destroy(col);
-        //transform.localRotation = Quaternion.Euler(initialLocalRotation.x, initialLocalRotation.y + turnAngle, initialLocalRotation.z);
     }
 
-    public void ApplyForce()
+    public void ApplyForce(Rigidbody vehicleRb)
     {
-        // if (attachment.isConnected)
-        {
-            //Vector3 direction = Quaternion.Euler(0, turnAngle, 0) * transform.forward;
+        _vehicleRb = vehicleRb;
+        turning += turnAngle * turnSpeed * Time.deltaTime;
+        //transform.Rotate(Vector3.up, moveSpeed * Time.deltaTime, Space.Self);
+        transform.rotation = Quaternion.Euler(initialLocalRotation.x, (initialLocalRotation.y + turning), initialLocalRotation.z);
 
-            Vector3 forwardForce = transform.forward ;
-
-           
-            rb.AddForce(forwardForce * moveSpeed);
-            //rb.AddForceAtPosition(force, transform.position);
-         
-        }
+        //pcha od naszej pozycji do przodu z si³¹ movespeed pamietaj
+        Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * moveSpeed ;
+        Vector3 forcePosition = transform.position;
+        Debug.DrawLine(forcePosition, forcePosition + forwardForce, Color.red, 0.1f);
+        
+        rb.AddForceAtPosition(forwardForce, forcePosition);
     }
+    
+    private void OnDrawGizmos()
+    {
+        if (!_vehicleRb) return;
+        Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * moveSpeed;
+        Vector3 forcePosition = transform.position;
+        
+        Gizmos.color = Color.green;
+        
+        Gizmos.DrawLine(forcePosition, forcePosition + forwardForce);
+        Gizmos.DrawSphere(forcePosition, 0.05f); 
+    }
+
+
 }

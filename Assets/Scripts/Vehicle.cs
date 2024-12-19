@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,9 +15,10 @@ public class Vehicle : MonoBehaviour
 
     [Header("Turning Settings")]
     public float turnSpeed = 45f;
-    [Range(-45f, 45f)] public float currentTurnAngle = 0f; 
+    [Range(-45f, 45f)] public float currentTurnAngle = 0f;
 
-
+    private Rigidbody rb;
+    
 
     private void Update()
     {
@@ -27,17 +29,6 @@ public class Vehicle : MonoBehaviour
         }
     }
 
-    private void HandleTurning()
-    {
-        //transform.rotation = Quaternion.Euler(0f, currentTurnAngle * turnSpeed * Time.deltaTime, 0f);
-
-        foreach (Wheel wheel in wheels)
-        {
-            wheel.turnAngle = currentTurnAngle;
-        }
-    }
-
-
     public void FindComponents()
     {
         engines.Clear();
@@ -47,7 +38,7 @@ public class Vehicle : MonoBehaviour
 
     
         SearchComponentsRecursively(transform);
-
+        rb = engines[0].GetComponent<Rigidbody>();
         Debug.Log($"Components Found - Engines: {engines.Count}, Wheels: {wheels.Count}, Boosters: {boosters.Count}, Batteries: {batteries.Count}");
     }
 
@@ -80,11 +71,19 @@ public class Vehicle : MonoBehaviour
         }
     }
 
+    private void HandleTurning()
+    {
+        foreach (Wheel wheel in wheels)
+        {
+            wheel.turnAngle = currentTurnAngle;
+        }
+    }
+    
     private void MoveWheels()
     {
         foreach (Wheel wheel in wheels)
         {
-            wheel.ApplyForce();
+            wheel.ApplyForce(rb);
         }
     }
 }
