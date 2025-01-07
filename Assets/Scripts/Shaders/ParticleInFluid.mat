@@ -42,21 +42,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlbedoPower: 1.06
+    - _AlbedoPower: 1.2
     - _Amount: 0.645
-    - _EmissionPower: 2.58
+    - _EmissionPower: 2.49
     - _Metallic: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 11.2
+    - _Scale: 13
     - _Smoothness: 0.829
-    - _Speed: 0.0192
-    - _Speed_2: 0
+    - _Speed: 0.0387
+    - _Speed_2: -0.029
     m_Colors:
-    - _Emission_Color: {r: 7.3772097, g: 0.38277972, b: 0.38277972, a: 0}
-    - _Particle_Color: {r: 3.9051018, g: 0.20445552, b: 0.23928882, a: 0}
-    - _SmoothstepAlbedo: {r: 0.67, g: 0.76, b: 0, a: 0}
-    - _SmoothstepEmission: {r: 0.43, g: 0.48, b: 0, a: 0}
+    - _Emission_Color: {r: 7.0616574, g: 0.6328842, b: 0.6328842, a: 0}
+    - _Particle_Color: {r: 3.9424343, g: 1.5063075, b: 1.5316833, a: 0}
+    - _SmoothstepAlbedo: {r: 0.55, g: 1.24, b: 0, a: 0}
+    - _SmoothstepEmission: {r: 0.28, g: 0.96, b: 0, a: 0}
     - _Speed1: {r: 0, g: 0, b: 0, a: 0}
     - _Speed2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
