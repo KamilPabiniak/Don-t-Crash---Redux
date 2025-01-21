@@ -42,7 +42,7 @@ public class Wheel : MonoBehaviour
         //transform.Rotate(Vector3.up, moveSpeed * Time.deltaTime, Space.Self);
         transform.rotation = Quaternion.Euler(initialLocalRotation.x, (initialLocalRotation.y + turning), initialLocalRotation.z);
 
-        //pcha od naszej pozycji do przodu z si³¹ movespeed pamietaj
+        //pcha od naszej pozycji do przodu z siÅ‚Ä… movespeed pamietaj
         Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * moveSpeed ;
         Vector3 forcePosition = transform.position;
         Debug.DrawLine(forcePosition, forcePosition + forwardForce, Color.red, 0.1f);

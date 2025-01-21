@@ -1,74 +1,71 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class TVController : MonoBehaviour
 {
+    // Prefabs and spawn configuration
     [SerializeField] private GameObject[] blockPrefabs;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private int spawnLimit = 25;
     private int blockSpawnCount = 0;
 
+    // Game manager reference
     [SerializeField] private GameManager gameManager;
 
-    // Массивы текстовых элементов для каждой страницы
-    public TMP_Text[] mainMenuItems;
-    public TMP_Text[] levelMenuItems;
-    public TMP_Text[] cameraMenuItems;
-    public TMP_Text[] spawnMenuItems;
-    public TMP_Text[] loadMenuItems;
-    public TMP_Text[] saveMenuItems;
+    // Menu items and pages
+    [SerializeField] private TMP_Text[] lobbyItems;
+    [SerializeField] private TMP_Text[] cameraMenuItems;
+    [SerializeField] private TMP_Text[] spawnMenuItems;
 
-    // GameObjects для каждой страницы
-    public GameObject mainMenuPage;
-    public GameObject levelMenuPage;
-    public GameObject cameraMenuPage;
-    public GameObject spawnMenuPage;
-    public GameObject saveMenuPage;
-    public GameObject loadMenuPage;
+    [SerializeField] private GameObject lobbyPage;
+    [SerializeField] private GameObject cameraMenuPage;
+    [SerializeField] private GameObject spawnMenuPage;
 
     private TMP_Text[] currentMenuItems;
     private int selectedIndex = 0;
-    private int currentPage = 0;
+    private int currentPage = 0; // Tracks the current menu page
 
     private void Start()
     {
-        SetCurrentMenu(mainMenuItems, mainMenuPage);
-        UpdateMenu();
+        SetCurrentMenu(lobbyItems, lobbyPage);
     }
-
-    public void LeftArrow()
+    
+    public void NavigateLeft()
     {
         selectedIndex = Mathf.Max(0, selectedIndex - 1);
-        UpdateMenu();
+        UpdateMenuHighlight();
     }
-    public void RightArrow()
+    public void NavigateRight()
     {
         selectedIndex = Mathf.Min(currentMenuItems.Length - 1, selectedIndex + 1);
-        UpdateMenu();
+        UpdateMenuHighlight();
     }
-    public void Enter()
+
+    public void ConfirmSelection() => HandlePageSelection();
+    public void NavigateLobby()
     {
-        SelectItem();
+        currentPage = 0;
+        SetCurrentMenu(lobbyItems, lobbyPage);
     }
-    private void SetCurrentMenu(TMP_Text[] menuItems, GameObject menuPage)
+
+    // Update the current menu and highlight the selected item
+    private void SetCurrentMenu(TMP_Text[] pageItems, GameObject page)
     {
-        // Выключить все страницы
-        mainMenuPage.SetActive(false);
-        levelMenuPage.SetActive(false);
+        // Disable all menu pages
+        lobbyPage.SetActive(false);
         cameraMenuPage.SetActive(false);
         spawnMenuPage.SetActive(false);
-        saveMenuPage.SetActive(false);
-        loadMenuPage.SetActive(false);
 
-        // Включить текущую страницу
-        menuPage.SetActive(true);
-        currentMenuItems = menuItems;
+        // Activate the selected page and set menu items
+        page.SetActive(true);
+        currentMenuItems = pageItems;
         selectedIndex = 0;
-        UpdateMenu();
+        UpdateMenuHighlight();
     }
-
-    private void UpdateMenu()
+    
+    private void UpdateMenuHighlight()
     {
         for (int i = 0; i < currentMenuItems.Length; i++)
         {
@@ -76,129 +73,73 @@ public class TVController : MonoBehaviour
         }
     }
 
-    private void SelectItem()
+    // Handle selection based on the current page
+    private void HandlePageSelection()
     {
         switch (currentPage)
         {
             case 0:
-                HandleMainMenuSelection();
+                HandleLobbySelection();
                 break;
             case 1:
-                HandleLevelMenuSelection();
-                break;
-            case 2:
                 HandleCameraMenuSelection();
                 break;
-            case 3:
+            case 2:
                 HandleSpawnMenuSelection();
                 break;
         }
     }
 
-    private void HandleMainMenuSelection()
+    // Logic for the lobby selection
+    private void HandleLobbySelection()
     {
         switch (selectedIndex)
         {
             case 0:
-                SceneManager.LoadScene("GameScene"); 
+                SetCurrentMenu(spawnMenuItems, spawnMenuPage); // Go to spawn menu
                 break;
             case 1:
-                currentPage = 1; 
-                SetCurrentMenu(levelMenuItems, levelMenuPage);
+                currentPage = 1;
+                //vehicle build and ride logic here
+                SetCurrentMenu(cameraMenuItems, cameraMenuPage); // Go to camera menu
                 break;
             case 2:
-                currentPage = 2; 
-                SetCurrentMenu(cameraMenuItems, cameraMenuPage);
+                currentPage = 2;
+              //reset vehicle logic here
                 break;
             case 3:
-                currentPage = 3; 
-                SetCurrentMenu(spawnMenuItems, spawnMenuPage);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Restart game
                 break;
-            //case 4: 
-            //    currentPage = 4;
-            //    SetCurrentMenu()
-            //    break;
             case 4:
                 Application.Quit(); 
                 break;
         }
     }
 
-    private void HandleLevelMenuSelection()
-    {
-        switch (selectedIndex)
-        {
-            case 0:
-                // Запуск скриптов
-                break;
-            case 1:
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезапуск сцены
-                break;
-            case 2:
-                currentPage = 4;
-                SetCurrentMenu(saveMenuItems, saveMenuPage);
-                break;
-            case 3:
-                currentPage = 5;
-                SetCurrentMenu(loadMenuItems, loadMenuPage);
-                break;
-            case 4:
-                currentPage = 2; // Переход к выбору видеокамер
-                SetCurrentMenu(cameraMenuItems, cameraMenuPage);
-                break;
-            case 5:
-                currentPage = 0; // Возврат в главное меню
-                SetCurrentMenu(mainMenuItems, mainMenuPage);
-                break;
-        }
-    }
-
+    // Logic for the camera menu selection
     private void HandleCameraMenuSelection()
     {
-        if (selectedIndex == currentMenuItems.Length - 1)
+        if (selectedIndex == currentMenuItems.Length - 1) // Back to main menu
         {
-            // Переход на предыдущую страницу
-            currentPage = 0; // Или другой номер страницы
-            SetCurrentMenu(mainMenuItems, mainMenuPage);
-        }
-        else
-        {
-            // Выбор камеры
+            currentPage = 0;
+            SetCurrentMenu(lobbyItems, lobbyPage);
         }
     }
 
-
+    // Logic for the spawn menu selection
     private void HandleSpawnMenuSelection()
     {
-        // Логика выбора спавна блоков
-        switch (selectedIndex)
+        if (selectedIndex < blockPrefabs.Length) // Spawn block
         {
-            case 0:
-                SpawnBlock(0);
-                break;
-            case 1:
-                SpawnBlock(1);
-                break;
-            case 2:
-                SpawnBlock(2);
-                break;
-            case 3:
-                SpawnBlock(3);
-                break;
-            case 4:
-                currentPage = 0; // Возврат в главное меню
-                SetCurrentMenu(mainMenuItems, mainMenuPage);
-                break;
+            SpawnBlock(selectedIndex);
         }
     }
-
-
+    
     private void SpawnBlock(int blockType)
     {
-        if (blockSpawnCount <= spawnLimit)
-        {
-            Instantiate(blockPrefabs[blockType], spawnPoint.position, Quaternion.identity);
-            blockSpawnCount++;
-        }
+        if (blockSpawnCount >= spawnLimit) return; 
+
+        Instantiate(blockPrefabs[blockType], spawnPoint.position, Quaternion.identity);
+        blockSpawnCount++;
     }
 }
