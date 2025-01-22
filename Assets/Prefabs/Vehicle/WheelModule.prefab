@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 5057316959835796564}
   - component: {fileID: 4817769408986856286}
   - component: {fileID: 3588207539172971191}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,8 @@ MonoBehaviour:
   snapLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  snapPoints: []
+  snapPoints:
+  - {fileID: 3588207539172971191}
 --- !u!114 &4372265944051955662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,7 +624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd8ab41076f3de4380a30138d1195f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.6
   turnSpeed: 5
   turnAngle: 0
   attachment: {fileID: 3588207539172971191}

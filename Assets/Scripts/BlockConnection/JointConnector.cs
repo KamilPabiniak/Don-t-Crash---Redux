@@ -68,7 +68,7 @@ public class JointConnector : MonoBehaviour
         
         foreach (SnapSystem snapSystem in snapSystems)
         {
-            snapSystem.Detach();
+            snapSystem.Detach(false);
             snapSystem.transform.SetParent(gameObject.transform);
         }
 

@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Vehicle : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private List<Engine> engines = new List<Engine>();
-    [SerializeField]  private List<Wheel> wheels = new List<Wheel>();
-    [SerializeField] private List<Booster> boosters = new List<Booster>();
-    [SerializeField] private List<Battery> batteries = new List<Battery>();
-
-    [Header("Engine State")]
+    public List<Engine> engines = new List<Engine>();
+    public List<Wheel> wheels = new List<Wheel>();
+    public List<Booster> boosters = new List<Booster>();
+    public List<Battery> batteries = new List<Battery>();
+    
+    [Header("Engine")] 
+    [SerializeField] private EngineDataTransfer dataTransfer;
     public bool TurnOnEngine = false;
 
     [Header("Turning Settings")]
-    public float turnSpeed = 45f;
     [Range(-45f, 45f)] public float currentTurnAngle = 0f;
 
     private Rigidbody rb;
@@ -40,6 +41,7 @@ public class Vehicle : MonoBehaviour
         SearchComponentsRecursively(transform);
         rb = engines[0].GetComponent<Rigidbody>();
         Debug.Log($"Components Found - Engines: {engines.Count}, Wheels: {wheels.Count}, Boosters: {boosters.Count}, Batteries: {batteries.Count}");
+        dataTransfer.UpdateComponentConnections();
     }
 
     private void SearchComponentsRecursively(Transform parent)

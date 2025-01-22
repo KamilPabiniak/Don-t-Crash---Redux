@@ -46,9 +46,14 @@ public class SnapSystem : MonoBehaviour
     private void TrySnap()
     {
         AttachmentPoint closestPoint = FindClosestAvailableSnapPoint();
+        Debug.Log(closestPoint);
         if (closestPoint != null)
         {
             SnapToPoint(closestPoint);
+        }
+        else
+        {
+            Detach(true); 
         }
     }
 
@@ -56,26 +61,39 @@ public class SnapSystem : MonoBehaviour
     {
         AttachmentPoint closestPoint = null;
         float closestDistance = Mathf.Infinity;
+        
+        Transform rootTransform = transform.root;
 
         Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, snapRange, snapLayerMask);
-        
+
         foreach (Collider collider in nearbyColliders)
         {
             AttachmentPoint point = collider.GetComponent<AttachmentPoint>();
-            if (point != null && !point.isConnected)
+            
+            if (point != null && !point.isConnected && point.GetRootParent() != rootTransform)
             {
                 float distance = Vector3.Distance(transform.position, point.transform.position);
+                Debug.Log($"Rozważany punkt: {point.name}, odległość: {distance}");
                 if (distance < closestDistance)
                 {
                     closestPoint = point;
                     closestDistance = distance;
                 }
             }
+            else if (point != null)
+            {
+                Debug.Log($"Pominięty punkt: {point.name}");
+            }
+        }
+
+        if (closestPoint == null)
+        {
+            Debug.Log("Nie znaleziono żadnego dostępnego punktu snapowania.");
         }
 
         return closestPoint;
     }
-    
+
     private void SnapToPoint(AttachmentPoint point)
     {
         transform.position = point.transform.position;
@@ -94,14 +112,14 @@ public class SnapSystem : MonoBehaviour
     }
 
     
-    public void Detach()
+    public void Detach(bool breakConnection)
     {
         Transform currentParent = transform.parent;
 
         while (currentParent != null)
         {
             AttachmentPoint point = currentParent.GetComponent<AttachmentPoint>();
-            if (point != null)
+            if (point != null && breakConnection)
             {
                 point.SetConnected(false);
             }

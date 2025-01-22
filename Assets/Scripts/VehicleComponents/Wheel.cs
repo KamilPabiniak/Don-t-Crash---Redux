@@ -3,8 +3,8 @@ using UnityEngine;
 public class Wheel : MonoBehaviour
 {
     [Header("Wheel Settings")]
-    public float moveSpeed = 2f;
     public float turnSpeed = 5f;
+    private float _moveSpeed;
 
     [Header("Turning Settings")]
     [Range(-15f, 15f)] public float turnAngle = 0f;
@@ -28,11 +28,17 @@ public class Wheel : MonoBehaviour
     {
         if (!attachment.isConnected)
         {
-            //col.enabled = true;
+            col.enabled = true;
             return;
         }
 
-        Destroy(col);
+        col.enabled = false;
+    }
+    
+    public void SetMoveSpeed(float speed)
+    {
+        _moveSpeed = speed;
+        Debug.Log($"Wheel {name} moveSpeed set to {_moveSpeed}");
     }
 
     public void ApplyForce(Rigidbody vehicleRb)
@@ -43,7 +49,7 @@ public class Wheel : MonoBehaviour
         transform.rotation = Quaternion.Euler(initialLocalRotation.x, (initialLocalRotation.y + turning), initialLocalRotation.z);
 
         //pcha od naszej pozycji do przodu z siłą movespeed pamietaj
-        Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * moveSpeed ;
+        Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * _moveSpeed;
         Vector3 forcePosition = transform.position;
         Debug.DrawLine(forcePosition, forcePosition + forwardForce, Color.red, 0.1f);
         
@@ -53,7 +59,7 @@ public class Wheel : MonoBehaviour
     private void OnDrawGizmos()
     {
         if (!_vehicleRb) return;
-        Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * moveSpeed;
+        Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * _moveSpeed;
         Vector3 forcePosition = transform.position;
         
         Gizmos.color = Color.green;
