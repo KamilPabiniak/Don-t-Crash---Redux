@@ -15,8 +15,7 @@ public class EngineDataTransfer : MonoBehaviour
             Debug.LogWarning("Vehicle has no engines or wheels connected.");
             return;
         }
-
-        // Assuming we distribute power equally among wheels
+        
         float totalPower = CalculateTotalEnginePower();
         float powerPerWheel = totalPower / vehicle.wheels.Count;
 

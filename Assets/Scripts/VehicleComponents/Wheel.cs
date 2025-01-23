@@ -11,6 +11,7 @@ public class Wheel : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private AttachmentPoint attachment;
+    [SerializeField] private GameObject wheel;
     [SerializeField] private Collider col;
     private Rigidbody rb;
     private Rigidbody _vehicleRb;
@@ -20,33 +21,21 @@ public class Wheel : MonoBehaviour
 
     private void Start()
     {
-        initialLocalRotation = transform.localEulerAngles;
+        initialLocalRotation = wheel.transform.localEulerAngles;
         rb = GetComponent<Rigidbody>();
-    }
-
-    private void Update()
-    {
-        if (!attachment.isConnected)
-        {
-            col.enabled = true;
-            return;
-        }
-
-        col.enabled = false;
     }
     
     public void SetMoveSpeed(float speed)
     {
         _moveSpeed = speed;
-        Debug.Log($"Wheel {name} moveSpeed set to {_moveSpeed}");
     }
 
     public void ApplyForce(Rigidbody vehicleRb)
     {
+        col.enabled = false;
         _vehicleRb = vehicleRb;
         turning += turnAngle * turnSpeed * Time.deltaTime;
-        //transform.Rotate(Vector3.up, moveSpeed * Time.deltaTime, Space.Self);
-        transform.rotation = Quaternion.Euler(initialLocalRotation.x, (initialLocalRotation.y + turning), initialLocalRotation.z);
+        //wheel.transform.rotation = Quaternion.Euler(-initialLocalRotation.x, (initialLocalRotation.y + turning), initialLocalRotation.z);
 
         //pcha od naszej pozycji do przodu z siłą movespeed pamietaj
         Vector3 forwardForce = Quaternion.Euler(0, transform.rotation.y, 0) * _vehicleRb.transform.right * _moveSpeed;

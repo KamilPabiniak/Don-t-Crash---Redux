@@ -7,6 +7,9 @@ public class JointConnector : MonoBehaviour
     [SerializeField] private Rigidbody rootRigidbody;
     [SerializeField] private Vehicle vehicle;
 
+    [Header("Joint Settings")] 
+    [SerializeField] private float breakForce;
+
     private InputAction connectAction;
     private bool isConnected = false;
     private List<SnapSystem> snapSystems = new List<SnapSystem>();
@@ -46,6 +49,9 @@ public class JointConnector : MonoBehaviour
             if (parentRb != null && parentRb != childRb)
             {
                 FixedJoint joint = parentRb.gameObject.AddComponent<FixedJoint>();
+                //joint.breakTorque = breakForce;
+                joint.enablePreprocessing = false;
+                joint.connectedMassScale = 0.01f;
                 joint.connectedBody = childRb;
                 connectedBodies.Add(childRb);
 
@@ -68,7 +74,7 @@ public class JointConnector : MonoBehaviour
         
         foreach (SnapSystem snapSystem in snapSystems)
         {
-            snapSystem.Detach(false);
+            snapSystem.Detach();
             snapSystem.transform.SetParent(gameObject.transform);
         }
 

@@ -13,10 +13,10 @@ public class Vehicle : MonoBehaviour
     
     [Header("Engine")] 
     [SerializeField] private EngineDataTransfer dataTransfer;
-    public bool TurnOnEngine = false;
+    public bool turnOnEngine;
 
     [Header("Turning Settings")]
-    [Range(-45f, 45f)] public float currentTurnAngle = 0f;
+    [Range(-45f, 45f)] public float currentTurnAngle;
 
     private Rigidbody rb;
     
@@ -24,7 +24,7 @@ public class Vehicle : MonoBehaviour
     private void Update()
     {
         HandleTurning();
-        if (TurnOnEngine)
+        if (turnOnEngine)
         {
             MoveWheels();
         }
@@ -40,7 +40,6 @@ public class Vehicle : MonoBehaviour
     
         SearchComponentsRecursively(transform);
         rb = engines[0].GetComponent<Rigidbody>();
-        Debug.Log($"Components Found - Engines: {engines.Count}, Wheels: {wheels.Count}, Boosters: {boosters.Count}, Batteries: {batteries.Count}");
         dataTransfer.UpdateComponentConnections();
     }
 

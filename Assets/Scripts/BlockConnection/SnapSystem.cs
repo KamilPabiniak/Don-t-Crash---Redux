@@ -4,8 +4,8 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SnapSystem : MonoBehaviour
 {
-    [SerializeField] public bool isRoot = false;  
-    [SerializeField] private float snapRange = 0.3f;  
+    [SerializeField] public bool isRoot = false;
+    private const float SnapRange = 0.1f;
     [SerializeField] private LayerMask snapLayerMask;  
     [Header("Attachment Points")]
     [SerializeField] private AttachmentPoint[] snapPoints;
@@ -42,95 +42,54 @@ public class SnapSystem : MonoBehaviour
     
     private void OnRelease(SelectExitEventArgs args) =>   TrySnap();
     
-    
     private void TrySnap()
     {
-        AttachmentPoint closestPoint = FindClosestAvailableSnapPoint();
-        Debug.Log(closestPoint);
-        if (closestPoint != null)
+        foreach (var myPoint in snapPoints)
         {
-            SnapToPoint(closestPoint);
-        }
-        else
-        {
-            Detach(true); 
-        }
-    }
-
-    private AttachmentPoint FindClosestAvailableSnapPoint()
-    {
-        AttachmentPoint closestPoint = null;
-        float closestDistance = Mathf.Infinity;
-        
-        Transform rootTransform = transform.root;
-
-        Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, snapRange, snapLayerMask);
-
-        foreach (Collider collider in nearbyColliders)
-        {
-            AttachmentPoint point = collider.GetComponent<AttachmentPoint>();
-            
-            if (point != null && !point.isConnected && point.GetRootParent() != rootTransform)
+            Collider[] nearbyColliders = Physics.OverlapSphere(myPoint.transform.position, SnapRange, snapLayerMask);
+            foreach (var collider in nearbyColliders)
             {
-                float distance = Vector3.Distance(transform.position, point.transform.position);
-                Debug.Log($"Rozważany punkt: {point.name}, odległość: {distance}");
-                if (distance < closestDistance)
+                var targetPoint = collider.GetComponent<AttachmentPoint>();
+                
+                if (targetPoint != null && targetPoint.GetRootParent() != myPoint.GetRootParent())
                 {
-                    closestPoint = point;
-                    closestDistance = distance;
+                    SnapToPoint(myPoint, targetPoint);
+                    return;
                 }
             }
-            else if (point != null)
-            {
-                Debug.Log($"Pominięty punkt: {point.name}");
-            }
-        }
-
-        if (closestPoint == null)
-        {
-            Debug.Log("Nie znaleziono żadnego dostępnego punktu snapowania.");
-        }
-
-        return closestPoint;
-    }
-
-    private void SnapToPoint(AttachmentPoint point)
-    {
-        transform.position = point.transform.position;
-        transform.SetParent(point.transform);
-
-        if (rb != null)
-        {
-            rb.isKinematic = true; 
         }
         
-        float targetYAngle = Mathf.Round(transform.eulerAngles.y / 90f) * 90f;
-        transform.rotation = Quaternion.Euler(0f, targetYAngle, 0f);
+        Detach();
+    }
+    
+    private void SnapToPoint(AttachmentPoint myPoint, AttachmentPoint targetPoint)
+    {
+        transform.position = targetPoint.transform.position;
+        transform.SetParent(targetPoint.transform);
+        
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+        
+        Vector3 roundedRotation = new Vector3(
+            Mathf.Round(transform.eulerAngles.x / 90f) * 90f,
+            Mathf.Round(transform.eulerAngles.y / 90f) * 90f,
+            Mathf.Round(transform.eulerAngles.z / 90f) * 90f
+        );
+        transform.rotation = Quaternion.Euler(roundedRotation);
 
-   
-        point.SetConnected(true);
+        Debug.Log($"{myPoint.name} snapped to {targetPoint.name}");
     }
 
     
-    public void Detach(bool breakConnection)
+    public void Detach()
     {
-        Transform currentParent = transform.parent;
-
-        while (currentParent != null)
-        {
-            AttachmentPoint point = currentParent.GetComponent<AttachmentPoint>();
-            if (point != null && breakConnection)
-            {
-                point.SetConnected(false);
-            }
-            transform.SetParent(null);
-            currentParent = currentParent.parent; 
-        }
-
+        transform.SetParent(null);
+        
         if (rb != null)
         {
-            rb.isKinematic = false; 
+            rb.isKinematic = false;
         }
     }
-
 }
