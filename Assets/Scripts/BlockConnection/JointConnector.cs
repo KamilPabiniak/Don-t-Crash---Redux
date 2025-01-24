@@ -41,7 +41,7 @@ public class JointConnector : MonoBehaviour
 
         foreach (SnapSystem snapSystem in snapSystems)
         {
-            if (snapSystem.isRoot || snapSystem.GetComponent<Rigidbody>() == null) continue;
+            if (snapSystem.GetRoot() || snapSystem.GetComponent<Rigidbody>() == null) continue;
 
             Rigidbody childRb = snapSystem.GetComponent<Rigidbody>();
             Rigidbody parentRb = GetParentRigidbody(snapSystem.transform);

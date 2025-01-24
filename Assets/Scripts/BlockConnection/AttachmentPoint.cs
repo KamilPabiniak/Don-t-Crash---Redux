@@ -2,28 +2,13 @@ using UnityEngine;
 
 public class AttachmentPoint : MonoBehaviour
 {
-    public bool isConnected = false;
-    private void OnTriggerStay(Collider other)
-    {
-        AttachmentPoint point = other.GetComponent<AttachmentPoint>();
-        if (point)
-        {
-            SetConnected(true);
-        }
-    }
+    public bool isConnected { get; private set; }
+    public AttachmentPoint ConnectedTo { get; set; }
+    private SnapSystem snapSystem;
 
-    private void OnTriggerExit(Collider other)
+    public void Initialize(SnapSystem system)
     {
-        AttachmentPoint point = other.GetComponent<AttachmentPoint>();
-        if (!point)
-        {
-            SetConnected(false);
-        }
-    }
-    
-    private void SetConnected(bool status)
-    {
-        isConnected = status;
+        snapSystem = system;
     }
 
     public Transform GetRootParent()
@@ -33,6 +18,18 @@ public class AttachmentPoint : MonoBehaviour
         {
             current = current.parent;
         }
+
         return current;
+    }
+
+    public void SetConnected(bool status)
+    {
+        isConnected = status;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = isConnected ? Color.green : Color.red;
+        Gizmos.DrawSphere(transform.position, 0.05f);
     }
 }
