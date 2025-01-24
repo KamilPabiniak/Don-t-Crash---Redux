@@ -142,11 +142,18 @@ public class SnapSystem : MonoBehaviour
     private void SnapToPoint(AttachmentPoint myPoint, AttachmentPoint targetPoint)
     {
         transform.position = targetPoint.transform.position;
-        transform.rotation = targetPoint.transform.rotation;
+        Quaternion targetRotation = targetPoint.transform.rotation; 
+        Quaternion myPointRotation = myPoint.transform.rotation;   
+        Quaternion rotationOffset = Quaternion.Inverse(myPointRotation) * transform.rotation;
+
+     
+        transform.rotation = targetRotation * rotationOffset;
+        
+        transform.rotation = SnapToNearest90Degrees(transform.rotation);
         transform.SetParent(targetPoint.transform);
 
         rb.isKinematic = true;
-
+        
         myPoint.SetConnected(true);
         myPoint.ConnectedTo = targetPoint;
         targetPoint.SetConnected(true);
@@ -154,6 +161,18 @@ public class SnapSystem : MonoBehaviour
 
         Debug.Log($"{myPoint.name} snapped to {targetPoint.name}");
     }
+    
+    private Quaternion SnapToNearest90Degrees(Quaternion rotation)
+    {
+        Vector3 euler = rotation.eulerAngles;
+        
+        euler.x = Mathf.Round(euler.x / 90f) * 90f;
+        euler.y = Mathf.Round(euler.y / 90f) * 90f;
+        euler.z = Mathf.Round(euler.z / 90f) * 90f;
+
+        return Quaternion.Euler(euler);
+    }
+
 
     public void Detach()
     {
