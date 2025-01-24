@@ -66,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681afafb412f3545a58830948818347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isConnected: 0
 --- !u!1 &673032003367080243
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681afafb412f3545a58830948818347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isConnected: 0
 --- !u!1 &3840149567980969331
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681afafb412f3545a58830948818347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isConnected: 0
 --- !u!1 &4311916374410997876
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,7 +264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681afafb412f3545a58830948818347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isConnected: 0
 --- !u!1 &5775793937623469559
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +296,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5775793937623469559}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 1
@@ -373,7 +369,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5775793937623469559}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d2d4aadca6da97e4db3004fe2682b55d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -395,7 +391,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5775793937623469559}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 50
   m_Drag: 2
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -411,7 +407,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!114 &4111596876830724548
@@ -427,10 +423,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isRoot: 1
-  snapRange: 0.3
   snapLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  snapRange: 0.2
   snapPoints:
   - {fileID: 6277009008888377110}
   - {fileID: 2821476231598382256}
@@ -639,7 +635,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -676,7 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b12d796dbea5640899e28d338a7245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  power: 100
+  power: 50
 --- !u!1 &5948206064958951698
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681afafb412f3545a58830948818347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isConnected: 0
 --- !u!1 &7837751512516232899
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,4 +805,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f681afafb412f3545a58830948818347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isConnected: 0
