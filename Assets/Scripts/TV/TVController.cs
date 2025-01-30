@@ -11,43 +11,78 @@ public class TVController : MonoBehaviour
     [SerializeField] private int spawnLimit = 25;
     private int blockSpawnCount = 0;
 
-    // Game manager reference
-    [SerializeField] private GameManager gameManager;
-
-    // Menu items and pages
+    // UI Pages and Items
     [SerializeField] private TMP_Text[] lobbyItems;
-    [SerializeField] private TMP_Text[] cameraMenuItems;
     [SerializeField] private TMP_Text[] spawnMenuItems;
 
     [SerializeField] private GameObject lobbyPage;
-    [SerializeField] private GameObject cameraMenuPage;
     [SerializeField] private GameObject spawnMenuPage;
+    [SerializeField] private GameObject playPongPage;
+    [SerializeField] private GameObject sleepScreen;
 
     private TMP_Text[] currentMenuItems;
-    private int selectedIndex = 0;
-    private int currentPage = 0; // Tracks the current menu page
+    private int selectedIndex;
+    private int currentPage; // Tracks the current menu page
+    
+    private float inactivityTimer = 0f;
+    [SerializeField] private float sleepDelay = 10f;
 
     private void Start()
     {
+        sleepScreen.SetActive(true);
         SetCurrentMenu(lobbyItems, lobbyPage);
     }
     
-    public void NavigateLeft()
+    private void Update()
     {
-        selectedIndex = Mathf.Max(0, selectedIndex - 1);
-        UpdateMenuHighlight();
-    }
-    public void NavigateRight()
-    {
-        selectedIndex = Mathf.Min(currentMenuItems.Length - 1, selectedIndex + 1);
-        UpdateMenuHighlight();
+        inactivityTimer += Time.deltaTime;
+
+        if (inactivityTimer >= sleepDelay)
+        {
+            sleepScreen.SetActive(true);
+        }
     }
 
-    public void ConfirmSelection() => HandlePageSelection();
+    
+    public void NavigateUp()
+    {
+        if (HandleSleepScreen()) return;
+        selectedIndex = Mathf.Max(0, selectedIndex - 1);
+        UpdateMenuHighlight();
+        ResetInactivityTimer();
+    }
+    public void NavigateDown()
+    {
+        if (HandleSleepScreen()) return;
+        selectedIndex = Mathf.Min(currentMenuItems.Length - 1, selectedIndex + 1);
+        UpdateMenuHighlight();
+        ResetInactivityTimer();
+    }
+
+    public void ConfirmSelection()
+    {
+        if (HandleSleepScreen()) return;
+        HandlePageSelection();
+        ResetInactivityTimer();
+    }
+
     public void NavigateLobby()
     {
+        if (HandleSleepScreen()) return;
         currentPage = 0;
         SetCurrentMenu(lobbyItems, lobbyPage);
+        ResetInactivityTimer();
+    }
+    
+    private bool HandleSleepScreen()
+    {
+        if (sleepScreen.activeSelf)
+        {
+            sleepScreen.SetActive(false);
+            inactivityTimer = 0f;
+            return true; 
+        }
+        return false;
     }
 
     // Update the current menu and highlight the selected item
@@ -55,8 +90,8 @@ public class TVController : MonoBehaviour
     {
         // Disable all menu pages
         lobbyPage.SetActive(false);
-        cameraMenuPage.SetActive(false);
         spawnMenuPage.SetActive(false);
+        playPongPage.SetActive(false);
 
         // Activate the selected page and set menu items
         page.SetActive(true);
@@ -82,10 +117,10 @@ public class TVController : MonoBehaviour
                 HandleLobbySelection();
                 break;
             case 1:
-                HandleCameraMenuSelection();
+                HandleSpawnMenuSelection();
                 break;
             case 2:
-                HandleSpawnMenuSelection();
+                HandleCameraMenuSelection();
                 break;
         }
     }
@@ -96,40 +131,37 @@ public class TVController : MonoBehaviour
         switch (selectedIndex)
         {
             case 0:
-                SetCurrentMenu(spawnMenuItems, spawnMenuPage); // Go to spawn menu
+                SetCurrentMenu(spawnMenuItems, spawnMenuPage);
+                currentPage = 1;
                 break;
             case 1:
-                currentPage = 1;
-                //vehicle build and ride logic here
-                SetCurrentMenu(cameraMenuItems, cameraMenuPage); // Go to camera menu
+                currentPage = 2;
+                // Vehicle build/ride logic
                 break;
             case 2:
-                currentPage = 2;
-              //reset vehicle logic here
+                SetCurrentMenu(null, playPongPage);
+                currentPage = 3;
                 break;
             case 3:
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Restart game
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 break;
             case 4:
-                Application.Quit(); 
+                Application.Quit();
                 break;
         }
     }
 
-    // Logic for the camera menu selection
     private void HandleCameraMenuSelection()
     {
-        if (selectedIndex == currentMenuItems.Length - 1) // Back to main menu
+        if (selectedIndex == currentMenuItems.Length - 1)
         {
-            currentPage = 0;
-            SetCurrentMenu(lobbyItems, lobbyPage);
+            NavigateLobby();
         }
     }
 
-    // Logic for the spawn menu selection
     private void HandleSpawnMenuSelection()
     {
-        if (selectedIndex < blockPrefabs.Length) // Spawn block
+        if (selectedIndex < blockPrefabs.Length)
         {
             SpawnBlock(selectedIndex);
         }
@@ -141,5 +173,11 @@ public class TVController : MonoBehaviour
 
         Instantiate(blockPrefabs[blockType], spawnPoint.position, Quaternion.identity);
         blockSpawnCount++;
+    }
+    
+    private void ResetInactivityTimer()
+    {
+        inactivityTimer = 0f;
+        if (sleepScreen.activeSelf) sleepScreen.SetActive(false);
     }
 }

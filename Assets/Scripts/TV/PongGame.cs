@@ -1,29 +1,37 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PongGame : MonoBehaviour
 {
     public GameObject ball;
     public GameObject leftPaddle;
     public GameObject rightPaddle;
-    public Text leftScoreText;
-    public Text rightScoreText;
+    public TextMeshProUGUI leftScoreText;
+    public TextMeshProUGUI rightScoreText;
+    public RectTransform panel;
 
-    private Rigidbody2D ballRb;
-    private Rigidbody2D leftPaddleRb;
-    private Rigidbody2D rightPaddleRb;
+    private RectTransform ballRect;
+    private RectTransform leftPaddleRect;
+    private RectTransform rightPaddleRect;
 
-    public float paddleSpeed = 5f;
-    public float ballSpeed = 6f;
+    public float paddleSpeed = 300f; 
+    public float ballSpeed = 300f;
 
     private int leftScore = 0;
     private int rightScore = 0;
 
+    private float panelWidth;
+    private float panelHeight;
+    private Vector2 ballDirection;
+
     void Start()
     {
-        ballRb = ball.GetComponent<Rigidbody2D>();
-        leftPaddleRb = leftPaddle.GetComponent<Rigidbody2D>();
-        rightPaddleRb = rightPaddle.GetComponent<Rigidbody2D>();
+        ballRect = ball.GetComponent<RectTransform>();
+        leftPaddleRect = leftPaddle.GetComponent<RectTransform>();
+        rightPaddleRect = rightPaddle.GetComponent<RectTransform>();
+
+        panelWidth = panel.rect.width / 2;
+        panelHeight = panel.rect.height / 2;
 
         ResetBall();
         UpdateScoreText();
@@ -32,63 +40,105 @@ public class PongGame : MonoBehaviour
     void Update()
     {
         MoveRightPaddleAI();
+        MoveBall();
         CheckBounds();
     }
 
     public void MoveLeftPaddleUp()
     {
-        leftPaddleRb.linearVelocity = Vector2.up * paddleSpeed;
+        if (leftPaddleRect.anchoredPosition.y < panelHeight - leftPaddleRect.rect.height / 2)
+        {
+            leftPaddleRect.anchoredPosition += Vector2.up * paddleSpeed * Time.deltaTime;
+        }
     }
 
     public void MoveLeftPaddleDown()
     {
-        leftPaddleRb.linearVelocity = Vector2.down * paddleSpeed;
-    }
-
-    public void StopLeftPaddle()
-    {
-        leftPaddleRb.linearVelocity = Vector2.zero;
+        if (leftPaddleRect.anchoredPosition.y > -panelHeight + leftPaddleRect.rect.height / 2)
+        {
+            leftPaddleRect.anchoredPosition += Vector2.down * paddleSpeed * Time.deltaTime;
+        }
     }
 
     void MoveRightPaddleAI()
     {
-        float ballY = ball.transform.position.y;
-        float paddleY = rightPaddle.transform.position.y;
+        float ballY = ballRect.anchoredPosition.y;
+        float paddleY = rightPaddleRect.anchoredPosition.y;
 
-        if (ballY > paddleY + 0.5f)
+        if (ballY > paddleY + 10f && paddleY < panelHeight - rightPaddleRect.rect.height / 2)
         {
-            rightPaddleRb.linearVelocity = Vector2.up * paddleSpeed;
+            rightPaddleRect.anchoredPosition += Vector2.up * paddleSpeed * Time.deltaTime;
         }
-        else if (ballY < paddleY - 0.5f)
+        else if (ballY < paddleY - 10f && paddleY > -panelHeight + rightPaddleRect.rect.height / 2)
         {
-            rightPaddleRb.linearVelocity = Vector2.down * paddleSpeed;
+            rightPaddleRect.anchoredPosition += Vector2.down * paddleSpeed * Time.deltaTime;
         }
-        else
-        {
-            rightPaddleRb.linearVelocity = Vector2.zero;
-        }
+    }
+
+    void MoveBall()
+    {
+        ballRect.anchoredPosition += ballDirection * ballSpeed * Time.deltaTime;
     }
 
     void ResetBall()
     {
-        ball.transform.position = Vector2.zero;
-        ballRb.linearVelocity = new Vector2(Random.Range(0, 2) == 0 ? 1 : -1, Random.Range(-1f, 1f)).normalized * ballSpeed;
+        ballRect.anchoredPosition = Vector2.zero;
+        ballDirection = new Vector2(Random.Range(0, 2) == 0 ? 1 : -1, Random.Range(-0.5f, 0.5f)).normalized;
     }
 
     void CheckBounds()
     {
-        if (ball.transform.position.x < -9f)
+        if (ballRect.anchoredPosition.x < -panelWidth)
         {
             rightScore++;
             UpdateScoreText();
             ResetBall();
         }
-        else if (ball.transform.position.x > 9f)
+        else if (ballRect.anchoredPosition.x > panelWidth)
         {
             leftScore++;
             UpdateScoreText();
             ResetBall();
         }
+
+        // Odbicie od górnej i dolnej granicy
+        if (ballRect.anchoredPosition.y > panelHeight - ballRect.rect.height / 2 || 
+            ballRect.anchoredPosition.y < -panelHeight + ballRect.rect.height / 2)
+        {
+            ballDirection.y = -ballDirection.y;
+        }
+
+        CheckPaddleCollision();
+    }
+
+    void CheckPaddleCollision()
+    {
+        // Kolizja z lewą paletką
+        if (IsBallTouchingPaddle(leftPaddleRect))
+        {
+            ballDirection.x = Mathf.Abs(ballDirection.x);
+            AdjustBallBounce(leftPaddleRect);
+        }
+        // Kolizja z prawą paletką
+        else if (IsBallTouchingPaddle(rightPaddleRect))
+        {
+            ballDirection.x = -Mathf.Abs(ballDirection.x);
+            AdjustBallBounce(rightPaddleRect);
+        }
+    }
+
+    bool IsBallTouchingPaddle(RectTransform paddle)
+    {
+        return ballRect.anchoredPosition.x < paddle.anchoredPosition.x + paddle.rect.width / 3 &&
+               ballRect.anchoredPosition.x > paddle.anchoredPosition.x - paddle.rect.width / 3 &&
+               ballRect.anchoredPosition.y < paddle.anchoredPosition.y + paddle.rect.height / 1 &&
+               ballRect.anchoredPosition.y > paddle.anchoredPosition.y - paddle.rect.height / 1;
+    }
+
+    void AdjustBallBounce(RectTransform paddle)
+    {
+        float hitPosition = (ballRect.anchoredPosition.y - paddle.anchoredPosition.y) / (paddle.rect.height / 2);
+        ballDirection = new Vector2(ballDirection.x, hitPosition).normalized;
     }
 
     void UpdateScoreText()
@@ -99,6 +149,6 @@ public class PongGame : MonoBehaviour
 
     public void QuitGame()
     {
-        // Mo�esz tu doda� Application.Quit();
+        Application.Quit();
     }
 }
