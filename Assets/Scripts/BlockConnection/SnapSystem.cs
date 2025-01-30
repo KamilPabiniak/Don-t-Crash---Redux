@@ -142,13 +142,7 @@ public class SnapSystem : MonoBehaviour
     private void SnapToPoint(AttachmentPoint myPoint, AttachmentPoint targetPoint)
     {
         transform.position = targetPoint.transform.position;
-        Quaternion targetRotation = targetPoint.transform.rotation; 
-        Quaternion myPointRotation = myPoint.transform.rotation;   
-        Quaternion rotationOffset = Quaternion.Inverse(myPointRotation) * transform.rotation;
-
-     
-        transform.rotation = targetRotation * rotationOffset;
-        
+        transform.rotation =   myPoint.transform.rotation;
         transform.rotation = SnapToNearest90Degrees(transform.rotation);
         transform.SetParent(targetPoint.transform);
 
