@@ -11,7 +11,7 @@ public class LeverXR : MonoBehaviour
 
     [SerializeField] private float holdTimeThreshold = 1.5f; // Czas trzymania przed ponownym wywołaniem
     private float holdTimer;
-    private bool reapetAgain;
+    private bool doMethod;
     private System.Action holdAction;
 
     private void Start()
@@ -28,25 +28,25 @@ public class LeverXR : MonoBehaviour
     {
         float angle = hingeJoint.angle;
 
-        // Jeśli kąt dźwigni osiągnie limit do przodu
         if (angle >= forwardLimit)
         {
+            if (doMethod) return;
             StartHolding(tvController.NavigateUp);
         }
-        // Jeśli kąt dźwigni osiągnie limit do tyłu
         else if (angle <= backwardLimit)
         {
+            if (doMethod) return;
             StartHolding(tvController.NavigateDown);
         }
         else
         {
-            ResetHolding(); // Resetowanie, jeśli kąt jest poza limitami
+            ResetHolding();
         }
 
-        HoldCheck(); // Sprawdzanie, czy należy wykonać akcję
+        HoldCheck();
     }
 
-    // ✅ Metoda do restartowania rotacji dźwigni
+    // ✅ Poprawiona metoda do restartowania rotacji dźwigni
     public void ResetLeverRotation()
     {
         transform.position = levelTrans.position;
@@ -56,35 +56,31 @@ public class LeverXR : MonoBehaviour
 
     private void StartHolding(System.Action action)
     {
-        if (reapetAgain) return;
-
-        holdAction = action; // Przypisz akcję do wykonania
-        holdTimer = holdTimeThreshold; // Inicjalizuj timer
-        reapetAgain = true; // Ustaw flagę, że zaczynamy trzymanie
+        if (doMethod) return;
+        holdTimer = 0f;
+        doMethod = true;
+        holdAction = action;
     }
 
     private void HoldCheck()
     {
-        if (reapetAgain && holdAction != null)
+        if (doMethod && holdAction != null)
         {
-            holdTimer -= Time.deltaTime; // Zmniejszaj timer w czasie rzeczywistym
-
+            doMethod = false;
+            holdTimer -= Time.deltaTime;
             if (holdTimer <= 0)
             {
-                holdAction.Invoke(); // Wywołaj przypisaną akcję
-                Debug.Log("Robię akcję");
-
-                // Resetuj timer, aby powtórzyć akcję po upływie holdTimeThreshold
-                holdTimer = holdTimeThreshold;
-                reapetAgain = false;
+                holdTimer = holdTimeThreshold; // Resetujemy licznik, aby powtarzać akcję
+                holdAction.Invoke();
+                doMethod = true;
             }
         }
     }
 
     private void ResetHolding()
     {
-        reapetAgain = false; // Zatrzymaj trzymanie akcji
-        holdTimer = 0f; // Resetuj timer
-        holdAction = null; // Zresetuj akcję
+        holdTimer = 0f;
+        doMethod = false;
+        holdAction = null;
     }
 }
