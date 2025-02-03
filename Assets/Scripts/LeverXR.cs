@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class LeverXR : MonoBehaviour
 {
-    [SerializeField] private HingeJoint hingeJoint; // Przypisz Hinge Joint dźwigni w Inspectorze
+    [SerializeField] private HingeJoint hingeJoint;   // Przypisz Hinge Joint dźwigni w Inspectorze
     [SerializeField] private TVController tvController; // Przypisz TVController
-    private Transform levelTrans;
 
-    private float forwardLimit;  // Maksymalne wychylenie do przodu
-    private float backwardLimit; // Maksymalne wychylenie do tyłu
+    private float forwardLimit;   // Maksymalne wychylenie do przodu
+    private float backwardLimit;  // Maksymalne wychylenie do tyłu
 
-    [SerializeField] private float holdTimeThreshold = 1.5f; // Czas trzymania przed ponownym wywołaniem
-    private float holdTimer;
-    private bool doMethod;
-    private System.Action holdAction;
+    [SerializeField] private float cooldownTime = 2f; // Czas cooldownu (sekundy)
+
+    private bool isOnCooldown = false; // Flaga cooldownu
+    private bool leverInCooldownZone = false; // Czy dźwignia nadal jest w pozycji granicznej?
 
     private void Start()
     {
@@ -21,7 +21,6 @@ public class LeverXR : MonoBehaviour
 
         forwardLimit = hingeJoint.limits.max;
         backwardLimit = hingeJoint.limits.min;
-        levelTrans = transform;
     }
 
     private void Update()
@@ -30,57 +29,41 @@ public class LeverXR : MonoBehaviour
 
         if (angle >= forwardLimit)
         {
-            if (doMethod) return;
-            StartHolding(tvController.NavigateUp);
+            TryStartCooldown(tvController.NavigateUp);
         }
         else if (angle <= backwardLimit)
         {
-            if (doMethod) return;
-            StartHolding(tvController.NavigateDown);
+            TryStartCooldown(tvController.NavigateDown);
         }
         else
         {
-            ResetHolding();
-        }
-
-        HoldCheck();
-    }
-
-    // ✅ Poprawiona metoda do restartowania rotacji dźwigni
-    public void ResetLeverRotation()
-    {
-        transform.position = levelTrans.position;
-        transform.rotation = levelTrans.rotation;
-        ResetHolding();
-    }
-
-    private void StartHolding(System.Action action)
-    {
-        if (doMethod) return;
-        holdTimer = 0f;
-        doMethod = true;
-        holdAction = action;
-    }
-
-    private void HoldCheck()
-    {
-        if (doMethod && holdAction != null)
-        {
-            doMethod = false;
-            holdTimer -= Time.deltaTime;
-            if (holdTimer <= 0)
-            {
-                holdTimer = holdTimeThreshold; // Resetujemy licznik, aby powtarzać akcję
-                holdAction.Invoke();
-                doMethod = true;
-            }
+            // Jeśli dźwignia wraca do neutralnej pozycji, resetujemy flagę
+            leverInCooldownZone = false;
         }
     }
 
-    private void ResetHolding()
+    /// <summary>
+    /// Sprawdza, czy można uruchomić cooldown i metodę.
+    /// </summary>
+    private void TryStartCooldown(System.Action action)
     {
-        holdTimer = 0f;
-        doMethod = false;
-        holdAction = null;
+        // Jeśli już jesteśmy na cooldownie albo dźwignia nie opuściła strefy granicznej od ostatniego użycia, nie rób nic.
+        if (isOnCooldown || leverInCooldownZone)
+            return;
+
+        // Wywołujemy akcję i rozpoczynamy cooldown
+        action.Invoke();
+        leverInCooldownZone = true; // Blokujemy ponowne wywołanie bez wychodzenia
+        StartCoroutine(CooldownCoroutine());
+    }
+
+    /// <summary>
+    /// Obsługuje cooldown, blokując kolejne wywołania na określony czas.
+    /// </summary>
+    private IEnumerator CooldownCoroutine()
+    {
+        isOnCooldown = true; // Aktywujemy cooldown
+        yield return new WaitForSeconds(cooldownTime);
+        isOnCooldown = false; // Po czasie odblokowujemy wywołania
     }
 }
