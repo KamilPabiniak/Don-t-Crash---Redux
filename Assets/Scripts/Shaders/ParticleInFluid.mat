@@ -53,8 +53,8 @@ Material:
     - _Speed: 0.0387
     - _Speed_2: -0.029
     m_Colors:
-    - _Emission_Color: {r: 7.0616574, g: 0.6328842, b: 0.6328842, a: 0}
-    - _Particle_Color: {r: 3.9424343, g: 1.5063075, b: 1.5316833, a: 0}
+    - _Emission_Color: {r: 0.5015438, g: 4.3581657, b: 0.47281992, a: 0}
+    - _Particle_Color: {r: 1.0858579, g: 3.7738016, b: 1.3005253, a: 0}
     - _SmoothstepAlbedo: {r: 0.55, g: 1.24, b: 0, a: 0}
     - _SmoothstepEmission: {r: 0.28, g: 0.96, b: 0, a: 0}
     - _Speed1: {r: 0, g: 0, b: 0, a: 0}
