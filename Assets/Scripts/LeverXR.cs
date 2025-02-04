@@ -3,17 +3,19 @@ using System.Collections;
 
 public class LeverXR : MonoBehaviour
 {
-    [SerializeField] private HingeJoint hingeJoint;   // Przypisz Hinge Joint dźwigni w Inspectorze
-    [SerializeField] private TVController tvController; // Przypisz TVController
+    public HingeJoint hingeJoint;  
+    [SerializeField] private TVController tvController; 
 
-    private float forwardLimit;   // Maksymalne wychylenie do przodu
-    private float backwardLimit;  // Maksymalne wychylenie do tyłu
+    private float forwardLimit;   
+    private float backwardLimit;  
 
-    [SerializeField] private float cooldownTime = 2f; // Czas cooldownu (sekundy)
+    [SerializeField] private float cooldownTime = 2f; 
+    
+    private bool isOnCooldown = false; 
+    private bool leverInCooldownZone = false;
 
-    private bool isOnCooldown = false; // Flaga cooldownu
-    private bool leverInCooldownZone = false; // Czy dźwignia nadal jest w pozycji granicznej?
-
+    public float GetForwadLimit() => forwardLimit;
+    public float GetBackwardLimit() => backwardLimit;
     private void Start()
     {
         if (hingeJoint == null)
@@ -29,15 +31,14 @@ public class LeverXR : MonoBehaviour
 
         if (angle >= forwardLimit)
         {
-            TryStartCooldown(tvController.NavigateUp);
+            TryStartCooldown(tvController.NavigateDown);
         }
         else if (angle <= backwardLimit)
         {
-            TryStartCooldown(tvController.NavigateDown);
+            TryStartCooldown(tvController.NavigateUp);
         }
         else
         {
-            // Jeśli dźwignia wraca do neutralnej pozycji, resetujemy flagę
             leverInCooldownZone = false;
         }
     }

@@ -17,6 +17,8 @@ public class PongGame : MonoBehaviour
     public float paddleSpeed = 300f; 
     public float ballSpeed = 300f;
 
+    public LeverXR lever;
+
     private int leftScore = 0;
     private int rightScore = 0;
 
@@ -42,9 +44,20 @@ public class PongGame : MonoBehaviour
         MoveRightPaddleAI();
         MoveBall();
         CheckBounds();
+        
+        float angle = lever.hingeJoint.angle;
+
+        if (angle >= lever.GetForwadLimit() / 2)
+        {
+            MoveLeftPaddleDown();
+        }
+        else if (angle <= lever.GetBackwardLimit() / 2)
+        {
+            MoveLeftPaddleUp();
+        }
     }
 
-    public void MoveLeftPaddleUp()
+    private void MoveLeftPaddleUp()
     {
         if (leftPaddleRect.anchoredPosition.y < panelHeight - leftPaddleRect.rect.height / 2)
         {
@@ -52,7 +65,7 @@ public class PongGame : MonoBehaviour
         }
     }
 
-    public void MoveLeftPaddleDown()
+    private void MoveLeftPaddleDown()
     {
         if (leftPaddleRect.anchoredPosition.y > -panelHeight + leftPaddleRect.rect.height / 2)
         {
@@ -100,8 +113,7 @@ public class PongGame : MonoBehaviour
             UpdateScoreText();
             ResetBall();
         }
-
-        // Odbicie od górnej i dolnej granicy
+        
         if (ballRect.anchoredPosition.y > panelHeight - ballRect.rect.height / 2 || 
             ballRect.anchoredPosition.y < -panelHeight + ballRect.rect.height / 2)
         {

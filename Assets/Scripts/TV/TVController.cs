@@ -9,7 +9,8 @@ public class TVController : MonoBehaviour
     [SerializeField] private GameObject[] blockPrefabs;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private int spawnLimit = 25;
-    private int blockSpawnCount = 0;
+    private int _blockSpawnCount = 0;
+    private bool _startedRide;
 
     // UI Pages and Items
     [SerializeField] private TMP_Text[] lobbyItems;
@@ -26,6 +27,9 @@ public class TVController : MonoBehaviour
     
     private float inactivityTimer = 0f;
     [SerializeField] private float sleepDelay = 10f;
+    [SerializeField] private Animator vehicle;
+    [SerializeField] private string boolParameterName = "Start";
+    [SerializeField] private GameObject leverForKronk;
 
     private void Start()
     {
@@ -37,10 +41,9 @@ public class TVController : MonoBehaviour
     {
         inactivityTimer += Time.deltaTime;
 
-        if (inactivityTimer >= sleepDelay)
-        {
-            sleepScreen.SetActive(true);
-        }
+        if (!(inactivityTimer >= sleepDelay)) return;
+        if (playPongPage.activeSelf) return;
+        sleepScreen.SetActive(true);
     }
 
     
@@ -53,7 +56,7 @@ public class TVController : MonoBehaviour
     }
     public void NavigateDown()
     {
-        if (HandleSleepScreen()) return;
+        if (HandleSleepScreen()) return; 
         selectedIndex = Mathf.Min(currentMenuItems.Length - 1, selectedIndex + 1);
         UpdateMenuHighlight();
         ResetInactivityTimer();
@@ -76,13 +79,10 @@ public class TVController : MonoBehaviour
     
     private bool HandleSleepScreen()
     {
-        if (sleepScreen.activeSelf)
-        {
-            sleepScreen.SetActive(false);
-            inactivityTimer = 0f;
-            return true; 
-        }
-        return false;
+        if (!sleepScreen.activeSelf) return false;
+        sleepScreen.SetActive(false);
+        inactivityTimer = 0f;
+        return true;
     }
 
     // Update the current menu and highlight the selected item
@@ -135,8 +135,11 @@ public class TVController : MonoBehaviour
                 currentPage = 1;
                 break;
             case 1:
+                if (_startedRide) return;
+                _startedRide = true;
+                leverForKronk.SetActive(true);
+                vehicle.SetBool(boolParameterName, true);
                 currentPage = 2;
-                // Vehicle build/ride logic
                 break;
             case 2:
                 SetCurrentMenu(null, playPongPage);
@@ -169,10 +172,10 @@ public class TVController : MonoBehaviour
     
     private void SpawnBlock(int blockType)
     {
-        if (blockSpawnCount >= spawnLimit) return; 
+        if (_blockSpawnCount >= spawnLimit) return; 
 
         Instantiate(blockPrefabs[blockType], spawnPoint.position, Quaternion.identity);
-        blockSpawnCount++;
+        _blockSpawnCount++;
     }
     
     private void ResetInactivityTimer()
