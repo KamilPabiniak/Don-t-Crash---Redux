@@ -8961,6 +8961,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2126754647985368570, guid: b33145d260a208a449c36d9c1cb625c9, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e7005baa2448d3f45b137976f1a5e16e, type: 2}
     - target: {fileID: 5384357655243027120, guid: b33145d260a208a449c36d9c1cb625c9, type: 3}
       propertyPath: m_Name
       value: Ball
@@ -9298,6 +9302,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: BubbleBlaser
       objectReference: {fileID: 0}
+    - target: {fileID: 4665428757127807291, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4665428757127807291, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4665428757127807291, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776043971177722298, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: m_RenderAlignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776043971177722298, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: m_EnableGPUInstancing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776043971177722298, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776043971177722298, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 986fe98aafac73649bd8682a3b8dc759, type: 2}
     - target: {fileID: 6275087348862061873, guid: 90cc1812beadb1e4098c821c6e1caa1c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.2488263
