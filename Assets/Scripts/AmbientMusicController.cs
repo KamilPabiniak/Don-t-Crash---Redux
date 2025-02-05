@@ -80,7 +80,7 @@ public class AmbientMusicController : MonoBehaviour
     {
         float timer = 0f;
         float startVolume = audioSource.volume;
-        float targetVolume = 0.45f; // docelowa g³oœnoœæ
+        float targetVolume = 0.25f; // docelowa g³oœnoœæ
 
         while (timer < fadeDuration)
         {
