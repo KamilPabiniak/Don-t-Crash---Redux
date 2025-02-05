@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Anchor
   - Vehicle
+  - Beer
+  - Ball
   layers:
   - Default
   - TransparentFX
