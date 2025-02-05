@@ -5,6 +5,7 @@ public class AudioEventPlayer : MonoBehaviour
 {
     public AudioSource leverKronkSource; 
     public AudioSource destructionSource; 
+    public AudioSource beltSource; 
     public AudioClip firstClip;
     public AudioClip secondClip;
     public GameObject boom;
@@ -34,5 +35,15 @@ public class AudioEventPlayer : MonoBehaviour
             boom.SetActive(true);
             destructionSource.Play();
         }
+    }
+
+    public void PlayBelt()
+    {
+        beltSource.Play();
+    }
+    
+    public void StopBelt()
+    {
+        beltSource.Stop();
     }
 }
